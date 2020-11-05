@@ -7,6 +7,10 @@ WORKDIR /
 RUN git clone https://github.com/stamparm/DSVW
 RUN sed -i 's/127.0.0.1/0.0.0.0/g' /DSVW/dsvw.py
 
+RUN sed -i 's/subprocess.check_output/subprocess.run/g' /DSVW/dsvw.py
+RUN sed -i 's/shell=True/shell=True, check=False/g' /DSVW/dsvw.py
+RUN sed -i 's/PIPE).decode()/PIPE, stdout=subprocess.PIPE).stdout.decode()/g' /DSVW/dsvw.py
+
 RUN sed -i 's/|<a href=\\"%s\\">exploit<\/a>/<!-- %s -->/g' /DSVW/dsvw.py
 RUN sed -i 's/|<a href=\\"%s\\" target=\\"_blank\\">info<\/a>/<!-- %s -->/g' /DSVW/dsvw.py
 RUN sed -i 's/, ("Denial of Service (<i>memory<\/i>)", "\/?size=32", "\/?size=9999999", "https:\/\/www.owasp.org\/index.php\/Denial_of_Service")//g' /DSVW/dsvw.py
